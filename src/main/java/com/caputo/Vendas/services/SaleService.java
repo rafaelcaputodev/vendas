@@ -2,6 +2,8 @@ package com.caputo.Vendas.services;
 
 import com.caputo.Vendas.dto.SaleDTO;
 
+import com.caputo.Vendas.dto.SaleSuccessDTO;
+import com.caputo.Vendas.dto.SaleSumDTO;
 import com.caputo.Vendas.entities.Sale;
 
 import com.caputo.Vendas.repositories.SaleRepository;
@@ -15,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SaleService {
@@ -32,4 +33,15 @@ public class SaleService {
         Page<Sale> list = repository.findAll(pageable);
         return list.map(x -> new SaleDTO(x));
     }
+
+    @Transactional(readOnly = true)
+    public List<SaleSumDTO> amountGroupedBySeller(){
+       return repository.amountGroupedBySeller();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SaleSuccessDTO> successGroupedBySeller(){
+        return repository.successGroupedBySeller();
+    }
+
 }
