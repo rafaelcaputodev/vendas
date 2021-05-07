@@ -1,37 +1,37 @@
-package com.caputo.Vendas.entities;
+package com.caputo.Vendas.dto;
 
+import com.caputo.Vendas.entities.Sale;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Objects;
 
-@Entity
-@Table(name = "tb_sales")
-public class Sale {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SaleDTO {
     private Long id;
-
     private Integer visited;
     private Integer deals;
     private Double amount;
     private LocalDate date;
 
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private Seller seller;
+    private SellerDTO seller;
 
-    public Sale() {
+    public SaleDTO() {
     }
 
-    public Sale(Long id, Integer visited, Integer deals, Double amount, LocalDate date, Seller seller) {
+    public SaleDTO(Long id, Integer visited, Integer deals, Double amount, LocalDate date, SellerDTO sellerDTO) {
         this.id = id;
         this.visited = visited;
         this.deals = deals;
         this.amount = amount;
         this.date = date;
-        this.seller = seller;
+        this.seller = sellerDTO;
+    }
+
+    public SaleDTO(Sale entity) {
+        id = entity.getId();
+        visited = entity.getVisited();
+        deals = entity.getDeals();
+        amount = entity.getAmount();
+        date = entity.getDate();
+        seller = new SellerDTO(entity.getSeller());
     }
 
     public Long getId() {
@@ -74,24 +74,11 @@ public class Sale {
         this.date = date;
     }
 
-    public Seller getSeller() {
+    public SellerDTO getSeller() {
         return seller;
     }
 
-    public void setSeller(Seller seller) {
+    public void setSeller(SellerDTO seller) {
         this.seller = seller;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Sale sale = (Sale) o;
-        return id.equals(sale.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }
